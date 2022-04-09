@@ -92,6 +92,7 @@
   },
   "devDependencies": {
     "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/react-router-dom": "^5.3.3",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "enzyme-to-json": "^3.6.2",
@@ -99,12 +100,12 @@
     "react-redux": "^7.2.5",
     "redux-devtools-extension": "^2.13.9"
   },
-  "jest":{
-    "collectCoverageFrom":[
+  "jest": {
+    "collectCoverageFrom": [
       "!/src/index.{ts,tsx}",
       "!src/index.{ts,tsx}"
     ],
-    "coveragePathIgnorePatterns":[
+    "coveragePathIgnorePatterns": [
       "[rootDir]/node_modules/",
       "[rootDir]/src/reportWebVitals.ts",
       "[rootDir]/src/index.tsx"
