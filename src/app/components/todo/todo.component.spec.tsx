@@ -10,6 +10,7 @@ describe('todo component', () => {
         component = mount(
         <Todo todo={{
             isCompleted: false,
+            isChecked: false,
             text: "go out for lunch"
         }} 
         index={0} 

@@ -22,6 +22,7 @@ const TodoForm: FC<todoFormProps> = (todoFormProps: todoFormProps) => {
                 className="input"
                 value={value}
                 onChange={e => setValue(e.target.value)}
+                placeholder='What needs to be done?'
             />
         </form>
     );
