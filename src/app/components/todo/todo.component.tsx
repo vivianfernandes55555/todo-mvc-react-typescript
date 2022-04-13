@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { ChangeEvent, FC } from "react";
 import "./../../../app.css";
 
 export type todoType = {
@@ -13,8 +13,8 @@ export interface todoProps {
   removeTodo: (index: number) => void
 }
 
-const Todo: FC<todoProps> = (todoProps: todoProps) => {
-  const handleOnChange = () => {
+const TodoItem: FC<todoProps> = (todoProps: todoProps) => {
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     todoProps.completeTodo(todoProps.index, todoProps.todo.isChecked);
   };
   const handleRemove = () => {
@@ -37,4 +37,4 @@ const Todo: FC<todoProps> = (todoProps: todoProps) => {
   );
 }
 
-export default Todo;
+export default TodoItem;

@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TodoForm from "../../components/todo-form/todo-form.component";
-import Todo from "../../components/todo/todo.component";
+import TodoItem from "../../components/todo/todo.component";
 import { addToTodoList } from "../../store/actions/todo/todo.action";
 import { todoStoreSelector } from "../../store/selectors/todo/todo.selector";
 import "./../../../app.css";
@@ -94,7 +94,7 @@ const TodoContainer: FC = () => {
     <div className="app">
       <div className="todo-list">
         {todos.length > 0 && todos.map((todo: todoType, index: number) => (
-          <Todo
+          <TodoItem
             key={index}
             index={index}
             todo={todo}

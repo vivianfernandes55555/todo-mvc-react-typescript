@@ -1,7 +1,7 @@
 import { mount, ReactWrapper, ShallowWrapper } from "enzyme";
 import React from "react";
 import { act } from "react-dom/test-utils";
-import Todo from "./todo.component";
+import TodoItem from "./todo.component";
 
 describe('todo component', () => {
   let component: ShallowWrapper | ReactWrapper;
@@ -9,7 +9,7 @@ describe('todo component', () => {
   const removeTodo = jest.fn();
   beforeEach(() => {
     component = mount(
-      <Todo todo={{
+      <TodoItem todo={{
         isCompleted: true,
         isChecked: true,
         text: "go out for lunch"
@@ -27,7 +27,7 @@ describe('todo component', () => {
   it('should handle when isCompleted is false', () => {
     const isCompleted = false;
     component = mount(
-      <Todo todo={{
+      <TodoItem todo={{
         isCompleted: false,
         isChecked: false,
         text: "go out for lunch"
