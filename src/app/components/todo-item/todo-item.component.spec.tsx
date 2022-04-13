@@ -1,15 +1,16 @@
 import { mount, ReactWrapper, ShallowWrapper } from "enzyme";
 import React from "react";
-import { act } from "react-dom/test-utils";
-import TodoItem from "./todo.component";
+import TodoItem from "./todo-item.component";
 
 describe('todo component', () => {
   let component: ShallowWrapper | ReactWrapper;
   const completeTodo = jest.fn();
   const removeTodo = jest.fn();
+  const updateTodo = jest.fn();
   beforeEach(() => {
     component = mount(
       <TodoItem todo={{
+        id:'1213242424',
         isCompleted: true,
         isChecked: true,
         text: "go out for lunch"
@@ -17,6 +18,7 @@ describe('todo component', () => {
         index={0}
         completeTodo={completeTodo}
         removeTodo={removeTodo}
+        updateTodo={updateTodo}
       />);
   })
 
@@ -28,13 +30,16 @@ describe('todo component', () => {
     const isCompleted = false;
     component = mount(
       <TodoItem todo={{
+        id:'1213242424',
         isCompleted: false,
         isChecked: false,
         text: "go out for lunch"
       }}
+        key={'1213242424'}
         index={0}
         completeTodo={completeTodo}
         removeTodo={removeTodo}
+        updateTodo={updateTodo}
       />);
     expect(isCompleted).toBe(false);
   });
@@ -47,11 +52,19 @@ describe('todo component', () => {
     expect(handleOnChange).toBeCalled();
   });
 
-  it('should handle handleRemove function', () => {
-    const handleRemove = jest.fn();
-    const button = component.find('button');
+  it('should handle completeTodo function', () => {
+    const completeTodo = jest.fn();
+    const button = component.find('div').at(1);
     button.simulate('click');
-    handleRemove();
+    completeTodo();
+    expect(completeTodo.mock.calls.length).toEqual(1);
+  });
+
+  it('should handle removeTodo function', () => {
+    const removeTodo = jest.fn();
+    const button = component.find('div').at(3);
+    button.simulate('click');
+    removeTodo();
     expect(removeTodo.mock.calls.length).toEqual(1);
   });
 })

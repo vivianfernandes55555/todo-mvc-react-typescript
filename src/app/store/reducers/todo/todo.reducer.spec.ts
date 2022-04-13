@@ -13,6 +13,7 @@ describe('Todo Reducer', () => {
         const requestAction: todoStoreTypes = {
             type: todoAction.ADD_TO_TODO_LIST,
             payload: [{
+                id:"1",
                 text: "need to go for lunch",
                 isCompleted: false,
                 isChecked: false,
@@ -28,6 +29,7 @@ describe('Todo Reducer', () => {
         const requestAction: todoStoreTypes = {
             type: todoAction.ADD_TO_TODO_LIST,
             payload: [{
+                id:"1",
                 text: "need to go for lunch",
                 isCompleted: false,
                 isChecked: false,

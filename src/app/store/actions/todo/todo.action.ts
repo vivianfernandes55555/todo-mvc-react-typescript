@@ -1,4 +1,4 @@
-import { todoValueType } from "../../../types/todo.type";
+import { todoType } from "../../../types/todo.type";
 
 
 export enum todoAction {
@@ -7,12 +7,12 @@ export enum todoAction {
 
 export interface addTodoListAction {
     type: typeof todoAction.ADD_TO_TODO_LIST,
-    payload: todoValueType[]
+    payload: todoType[]
 }
 
 export type todoStoreTypes = | addTodoListAction;
 
-export const addToTodoList = (payload: todoValueType[]): todoStoreTypes => ({
+export const addToTodoList = (payload: todoType[]): todoStoreTypes => ({
     type: todoAction.ADD_TO_TODO_LIST,
     payload
 });

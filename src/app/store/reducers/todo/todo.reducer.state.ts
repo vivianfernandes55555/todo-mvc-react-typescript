@@ -1,5 +1,5 @@
-import { todoValueType } from "../../../types/todo.type";
+import { todoType } from "../../../types/todo.type";
 
 export interface TodoState {
-    todoList: todoValueType[]
+    todoList: todoType[]
 }
