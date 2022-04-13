@@ -1,5 +1,5 @@
 import { todoType } from "../../../types/todo.type";
-import { todoAction, addToTodoList } from './todo.action';
+import { todoAction, addToTodoList, tabTypes, setActiveTab, setAllTodoCompleted } from './todo.action';
 
 describe('Todo Actions', () => {
 
@@ -38,6 +38,26 @@ describe('Todo Actions', () => {
         }
         expect(addToTodoList(response)).toEqual(expectedAction);
     });
+
+    it('SET_ACTIVE_TAB returns an action of the expected shape', () => {
+      const todoStoreData: tabTypes = tabTypes.ALL_TAB
+      const response: tabTypes = todoStoreData;
+      const expectedAction = {
+          payload: todoStoreData,
+          type: todoAction.SET_ACTIVE_TAB
+      }
+      expect(setActiveTab(response)).toEqual(expectedAction);
+  });
+
+  it('SET_ALL_TODO_COMPLETED returns an action of the expected shape', () => {
+    const todoStoreData = true;
+    const response: boolean = todoStoreData;
+    const expectedAction = {
+        payload: todoStoreData,
+        type: todoAction.SET_ALL_TODO_COMPLETED
+    }
+    expect(setAllTodoCompleted(response)).toEqual(expectedAction);
+});
 })
 
 

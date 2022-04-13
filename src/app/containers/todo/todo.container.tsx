@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TodoForm from "../../components/todo-form/todo-form.component";
-import { addToTodoList } from "../../store/actions/todo/todo.action";
+import { addToTodoList, setActiveTab, setAllTodoCompleted, tabTypes } from "../../store/actions/todo/todo.action";
 import { todoStoreSelector } from "../../store/selectors/todo/todo.selector";
 import { todoType } from "../../types/todo.type";
 import "./../../../app.css";
@@ -13,16 +13,11 @@ const TodoContainer: FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch() as any;
   const todoSelector = useSelector(todoStoreSelector);
-  const [isActiveTab, setIsActiveTab] = useState(false);
-  const [isCompletedTab, setIsCompletedTab] = useState(false);
-  const [completeAll, setCompleteAll] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isAllTab, setIsAllTab] = useState(false);
   useEffect(() => {
-    if (isActiveTab) {
+    if (todoSelector.activeTab === tabTypes.ACTIVE_TAB) {
       getActiveToDoList();
     }
-    else if (isCompletedTab) {
+    else if (todoSelector.activeTab === tabTypes.COMPLETED_TAB) {
       getCompletedToDoList();
     }
     else {
@@ -32,7 +27,7 @@ const TodoContainer: FC = () => {
   }, [todoSelector.todoList]);
 
   const addTodo = (todo: todoType) => {
-    setCompleteAll(false);
+    dispatch(setAllTodoCompleted(false));
     const newTodos: todoType[] = [...todoSelector.todoList];
     newTodos.push(todo);
     dispatch(addToTodoList(newTodos));
@@ -40,13 +35,13 @@ const TodoContainer: FC = () => {
 
   // Check existing todo item as completed
   const completeTodo = (id: string, index: number, isChecked: boolean) => {
-    setCompleteAll(false);
+    dispatch(setAllTodoCompleted(false));
     const newTodos = [...todoSelector.todoList];
-    if (isActiveTab) {
+    if (todoSelector.activeTab === tabTypes.ACTIVE_TAB) {
       const activeTodoList = todoSelector.todoList.filter((el: todoType) => el.isCompleted === false);
       index = newTodos.findIndex(el => el.id === activeTodoList[index].id);
     }
-    else if (isCompletedTab) {
+    else if (todoSelector.activeTab === tabTypes.COMPLETED_TAB) {
       const compTodoList = todoSelector.todoList.filter((el: todoType) => el.isCompleted === true);
       index = newTodos.findIndex(el => el.id === compTodoList[index].id);
     }
@@ -61,39 +56,45 @@ const TodoContainer: FC = () => {
     dispatch(addToTodoList(newTodos));
   };
 
+  //Get All Todos List
   const getAllToDoList = () => {
-    setIsAllTab(true);
-    setIsCompletedTab(false)
-    setIsActiveTab(false);
+    dispatch(setActiveTab(tabTypes.ALL_TAB));
     setTodos(todoSelector.todoList);
   };
+
+  //Get Completed Todos List
   const getCompletedToDoList = () => {
-    setIsAllTab(false);
-    setIsCompletedTab(true)
-    setIsActiveTab(false);
+    dispatch(setActiveTab(tabTypes.COMPLETED_TAB));
     setTodos(todoSelector.todoList.filter((el: todoType) => el.isCompleted === true));
   };
+
+  //Get Active Todos List
   const getActiveToDoList = () => {
-    setIsAllTab(false);
-    setIsCompletedTab(false)
-    setIsActiveTab(true);
+    dispatch(setActiveTab(tabTypes.ACTIVE_TAB));
     setTodos(todoSelector.todoList.filter((el: todoType) => el.isCompleted === false));
   };
+
+  //Clear Selected Todos List
   const clearCompleted = () => {
-    setCompleteAll(false);
+    dispatch(setAllTodoCompleted(false));
+    dispatch(setActiveTab(tabTypes.CLEAR_COMPLETED_TAB));
     const newTodos = todoSelector.todoList.filter((el: todoType) => (el.isCompleted === false || el.isCompleted === true) && el.isChecked === false);
     dispatch(addToTodoList(newTodos));
   };
+
+  //Remove Todo from List
   const removeTodo = (id: string) => {
-    setCompleteAll(false);
+    dispatch(setAllTodoCompleted(false));
     // Prepare new todos state
     const newTodosState: todoType[] = todos.filter((todo: todoType) => todo.id !== id);
     dispatch(addToTodoList(newTodosState));
   };
+
+  //Mark all todos as completed
   const completeAllTodos = () => {
     let newTodosState: todoType[] = [];
     // Prepare new todos state
-    if (!completeAll) {
+    if (!todoSelector.allTodosCompleted) {
       todoSelector.todoList.forEach((el: todoType) => {
         el.isCompleted = true;
         el.isChecked = true;
@@ -106,7 +107,7 @@ const TodoContainer: FC = () => {
     }
     newTodosState = todoSelector.todoList;
     dispatch(addToTodoList(newTodosState));
-    setCompleteAll(!completeAll);
+    dispatch(setAllTodoCompleted(!todoSelector.allTodosCompleted));
   };
 
   // Update existing todo item
@@ -135,7 +136,7 @@ const TodoContainer: FC = () => {
           completeTodo={completeTodo}
           removeTodo={removeTodo}
         />
-        {`Items Left:  ${todoSelector.todoList.filter((el: todoType) => el.isChecked === false).length} `}
+        {`Items Left:  ${todos.filter((el: todoType) => el.isChecked === false).length} `}
         <TodoFooter 
           todos={todos}
           getAllToDoList={getAllToDoList}

@@ -13,13 +13,13 @@ export const todos = [{
   {
     id: "3",
     text: "keep the books in the cupboard",
-    isCompleted: false,
-    isChecked: false,
+    isCompleted: true,
+    isChecked: true,
   },
   {
     id: "4",
     text: "call Larry after lunch",
     isCompleted: true,
-    isChecked: true,
+    isChecked: false,
   }
   ];

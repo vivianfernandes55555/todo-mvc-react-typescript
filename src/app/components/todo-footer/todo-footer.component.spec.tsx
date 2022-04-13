@@ -11,7 +11,8 @@ describe('todo footer component', () => {
     const clearCompleted = jest.fn();
     beforeEach(() => {
         component = mount(
-            <TodoFooter todos={todos}
+            <TodoFooter 
+                todos={todos}
                 getAllToDoList={getAllToDoList}
                 getActiveToDoList={getActiveToDoList}
                 getCompletedToDoList={getCompletedToDoList}
@@ -20,5 +21,4 @@ describe('todo footer component', () => {
     it('should render to do component', () => {
         expect(component).toBeDefined();
     });
-
 })

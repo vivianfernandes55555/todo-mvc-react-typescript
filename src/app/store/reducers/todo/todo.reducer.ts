@@ -1,8 +1,10 @@
-import { todoAction, todoStoreTypes } from "../../actions/todo/todo.action";
+import { tabTypes, todoAction, todoStoreTypes } from "../../actions/todo/todo.action";
 import { TodoState } from "./todo.reducer.state";
 
 export const initialState: TodoState = {
-    todoList: []
+    todoList: [],
+    activeTab: tabTypes.ALL_TAB,
+    allTodosCompleted: false
 }
 
 export const todoReducer = (
@@ -14,7 +16,17 @@ export const todoReducer = (
             return {
                 ...state,
                 todoList: action.payload
-            };            
+            };
+        case todoAction.SET_ACTIVE_TAB:
+            return {
+                ...state,
+                activeTab: action.payload
+            };
+        case todoAction.SET_ALL_TODO_COMPLETED:
+            return {
+                ...state,
+                allTodosCompleted: action.payload
+            };
         default:
             return state;
     }

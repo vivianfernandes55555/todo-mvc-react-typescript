@@ -3,63 +3,26 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import TodoFooter from '../../components/todo-footer/todo-footer.component';
 import TodoForm from '../../components/todo-form/todo-form.component';
 import TodoItem from '../../components/todo-item/todo-item.component';
+import TodoList from '../../components/todo-list/todo-list.component';
 import { todos } from '../../mocks/todo.mock';
+import { tabTypes } from '../../store/actions/todo/todo.action';
 import TodoContainer from './todo.container';
 
 describe('To Do Container', () => {
   let component: ShallowWrapper | ReactWrapper;
   let useEffect: any;
-  const setTodos = jest.fn();
-  const setIsAllTab = jest.fn();
-  const setIsActiveTab = jest.fn();
-  const setIsCompletedTab = jest.fn();
-  const setCompleteAll = jest.fn();
-  const useStateSpy: any = jest.spyOn(React, 'useState');
   let store: any;
   const mockStore = configureStore([]);
-  useStateSpy.mockImplementation((todos: any) => [
-    (todos = [{
-      id: "1",
-      text: "Learn about React",
-      isCompleted: false
-    },
-    {
-      id: "2",
-      text: "Meet friend for lunch",
-      isCompleted: false
-    },
-    {
-      id: "3",
-      text: "Build really cool todo app",
-      isCompleted: false
-    }]),
-    setTodos
-  ]);
-  useStateSpy.mockImplementation((completeAll: boolean) => [
-    false,
-    setCompleteAll
-  ]);
-  useStateSpy.mockImplementation((isAllTab: boolean) => [
-    false,
-    setIsAllTab
-  ]);
-  useStateSpy.mockImplementation((isActiveTab: boolean) => [
-    false,
-    setIsActiveTab
-  ]);
-  useStateSpy.mockImplementation((isCompletedTab: boolean) => [
-    false,
-    setIsCompletedTab
-  ]);
+
   const props = {
     todoStore: {
-      todoList: todos
-    },
-    isActiveTab:true,
-    isCompletedTab:false,
-    isAllTab:false
+      todoList: todos,
+      activeTab:tabTypes.ALL_TAB,
+      allTodosCompleted: false
+    }
   }
   const dispatchMock = jest.fn();
   const mockUseEffect = () => {
@@ -81,9 +44,70 @@ describe('To Do Container', () => {
     expect(component).toBeDefined();
   });
 
-  it('should handle when click on complete button and isChecked is false', () => {
+  it('should render when Active Tab is true', () => {
+    props.todoStore.activeTab = tabTypes.ACTIVE_TAB
+    component = mount(
+      < Provider store={store} >
+        <TodoContainer />
+      </Provider >
+    );
+    expect(props.todoStore.activeTab).toEqual(tabTypes.ACTIVE_TAB)
+  });
+
+  it('should render when Completed Tab is true', () => {
+    props.todoStore.activeTab = tabTypes.COMPLETED_TAB
+    component = mount(
+      < Provider store={store} >
+        <TodoContainer />
+      </Provider >
+    );
+    expect(props.todoStore.activeTab).toEqual(tabTypes.COMPLETED_TAB)
+  });
+
+  it('should render when Clear Completed Tab is true', () => {
+    props.todoStore.activeTab = tabTypes.CLEAR_COMPLETED_TAB
+    component = mount(
+      < Provider store={store} >
+        <TodoContainer />
+      </Provider >
+    );
+    expect(props.todoStore.activeTab).toEqual(tabTypes.CLEAR_COMPLETED_TAB)
+  });
+
+  it('should render when All todos completed flag is true', () => {
+    props.todoStore.allTodosCompleted = true
+    component = mount(
+      < Provider store={store} >
+        <TodoContainer />
+      </Provider >
+    );
+    expect(props.todoStore.allTodosCompleted).toBe(true)
+  });
+
+  it('should handle when click on complete button and isChecked is false and tab is active tab', () => {
+    props.todoStore.activeTab = tabTypes.ACTIVE_TAB
     const index = 0;
-    const completeTodo = component.find(TodoItem).at(0).props().completeTodo;
+    const completeTodo = component.find(TodoList).at(0).props().completeTodo;
+    act(() => {
+      completeTodo("1", index, false)
+    });
+    expect(index).toEqual(0);
+  });
+
+  it('should handle when click on complete button and isChecked is false and tab is completed tab', () => {
+    props.todoStore.activeTab = tabTypes.COMPLETED_TAB
+    const index = 0;
+    const completeTodo = component.find(TodoList).at(0).props().completeTodo;
+    act(() => {
+      completeTodo("1", index, false)
+    });
+    expect(index).toEqual(0);
+  });
+
+  it('should handle when click on complete button and isChecked is false and tab is clear completed tab', () => {
+    props.todoStore.activeTab = tabTypes.CLEAR_COMPLETED_TAB
+    const index = 0;
+    const completeTodo = component.find(TodoList).at(0).props().completeTodo;
     act(() => {
       completeTodo("1", index, false)
     });
@@ -92,7 +116,7 @@ describe('To Do Container', () => {
 
   it('should handle when click on complete button and isChecked is true', () => {
     const index = 0;
-    const completeTodo = component.find(TodoItem).at(0).props().completeTodo;
+    const completeTodo = component.find(TodoList).at(0).props().completeTodo;
     act(() => {
       completeTodo("1", index, true)
     });
@@ -120,7 +144,7 @@ describe('To Do Container', () => {
 
   it('should handle when click on update Todo', () => {
     const id = "1";
-    const updateTodo = component.find(TodoItem).at(0).props().updateTodo;
+    const updateTodo = component.find(TodoList).at(0).props().updateTodo;
     act(() => {
       updateTodo({ target: { value: 'go for lunch' } }, "1")
     });
@@ -143,17 +167,18 @@ describe('To Do Container', () => {
   });
 
   it('should handle when click on Chevron down', () => {
+    props.todoStore.allTodosCompleted = false;
     const completeAllTodos = jest.fn();
-    const button = component.find('button').at(0);
+    const button = component.find(TodoForm).find('button').at(0);
     button.simulate('click');
     completeAllTodos();
     expect(completeAllTodos.mock.calls.length).toEqual(1);
   });
 
-  it('should handle when click on Chevron down and completeAll flag is true', async () => {
-    await setCompleteAll(true);
+  it('should handle when click on Chevron down and completeAll flag is true', () => {
+    props.todoStore.allTodosCompleted = true;
     const completeAllTodos = jest.fn();
-    const button = component.find('button').at(0);
+    const button = component.find(TodoForm).find('button').at(0);
     button.simulate('click');
     completeAllTodos();
     expect(completeAllTodos.mock.calls.length).toEqual(1);
@@ -161,42 +186,59 @@ describe('To Do Container', () => {
 
   it('should handle when click on All', () => {
     const getAllToDoList = jest.fn();
-    const button = component.find('button').at(1);
+    const button = component.find(TodoFooter).find('button').at(0);
     button.simulate('click');
     getAllToDoList();
-    setIsAllTab(true);
-    setIsActiveTab(false);
-    setIsCompletedTab(false);
     expect(getAllToDoList.mock.calls.length).toEqual(1);
   });
 
   it('should handle when click on Active', () => {
     const getActiveToDoList = jest.fn();
-    const button = component.find('button').at(2)
+    const button = component.find(TodoFooter).find('button').at(1);
     button.simulate('click');
     getActiveToDoList();
-    setIsAllTab(false);
-    setIsActiveTab(true);
-    setIsCompletedTab(false);
     expect(getActiveToDoList.mock.calls.length).toEqual(1);
   });
 
   it('should handle when click on Completed', () => {
     const getCompletedToDoList = jest.fn();
-    const button = component.find('button').at(3)
+    const button = component.find(TodoFooter).find('button').at(2);
     button.simulate('click');
     getCompletedToDoList();
-    setIsAllTab(false);
-    setIsActiveTab(false);
-    setIsCompletedTab(true);
     expect(getCompletedToDoList.mock.calls.length).toEqual(1);
   });
 
   it('should handle when click on Clear Completed', () => {
-    const clearCompleted = jest.fn();
-    const button = component.find('button').at(4)
-    button.simulate('click');
-    clearCompleted();
-    expect(clearCompleted.mock.calls.length).toEqual(1);
+    props.todoStore.todoList = [{
+      id: "1",
+      text: "need to go for lunch",
+      isCompleted: false,
+      isChecked: false,
+    },
+    {
+      id: "2",
+      text: "need to call Susan",
+      isCompleted: false,
+      isChecked: false,
+    },
+    {
+      id: "3",
+      text: "keep the books in the cupboard",
+      isCompleted: true,
+      isChecked: false,
+    },
+    {
+      id: "4",
+      text: "call Larry after lunch",
+      isCompleted: true,
+      isChecked: false,
+    }
+    ]
+    props.todoStore.activeTab = tabTypes.CLEAR_COMPLETED_TAB
+    const clearCompleted = component.find(TodoFooter).props().clearCompleted;
+    act(() => {
+      clearCompleted()
+    });
+    expect(props.todoStore.activeTab).toEqual(tabTypes.CLEAR_COMPLETED_TAB);
   });
 });
