@@ -9,29 +9,53 @@ import "./../../../app.css";
 export interface todoType {
   text: string,
   isCompleted: boolean,
-  isChecked:boolean
+  isChecked: boolean
 }
 const TodoContainer: FC = () => {
   const [todos, setTodos] = useState<todoType[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch() as any;
   const todoSelector = useSelector(todoStoreSelector);
+  const [isActiveTab, setIsActiveTab] = useState(false);
+  const [isCompletedTab, setIsCompletedTab] = useState(false);
+  const [isAllTab, setIsAllTab] = useState(false);
   useEffect(() => {
-    setTodos(todoSelector.todoList);
+    if (isActiveTab) {
+      getActiveToDoList();
+    }
+    else if (isCompletedTab) {
+      getCompletedToDoList();
+    }
+    else {
+      setTodos(todoSelector.todoList);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [todoSelector.todoList]);
 
   const addTodo = (text: string) => {
+    if(todoSelector.todoList.filter(el => el.text === text).length > 0){
+      //todo already exists
+      return;
+    }
     const newTodos = [...todoSelector.todoList, { text: text, isCompleted: false, isChecked: false }];
     dispatch(addToTodoList(newTodos));
   };
 
-  const completeTodo = (index: number,isChecked:boolean) => {
+  const completeTodo = (index: number, isChecked: boolean) => {
     const newTodos = [...todoSelector.todoList];
-    if(!isChecked){
+    if (isActiveTab) {
+      const activeTodoList = todoSelector.todoList.filter((el: todoType) => el.isCompleted === false);
+      index = newTodos.findIndex(el => el.text === activeTodoList[index].text);
+    }
+    else if(isCompletedTab){
+      const compTodoList = todoSelector.todoList.filter((el: todoType) => el.isCompleted === true);
+      index = newTodos.findIndex(el => el.text === compTodoList[index].text);
+    }
+    if (!isChecked) {
       newTodos[index].isCompleted = true;
       newTodos[index].isChecked = true;
     }
-    else{
+    else {
       newTodos[index].isCompleted = false;
       newTodos[index].isChecked = false;
     }
@@ -39,20 +63,27 @@ const TodoContainer: FC = () => {
   };
 
   const getAllToDoList = () => {
+    setIsAllTab(true);
+    setIsCompletedTab(false)
+    setIsActiveTab(false);
     setTodos(todoSelector.todoList);
   };
   const getCompletedToDoList = () => {
+    setIsAllTab(false);
+    setIsCompletedTab(true)
+    setIsActiveTab(false);
     setTodos(todoSelector.todoList.filter((el: todoType) => el.isCompleted === true));
   };
   const getActiveToDoList = () => {
+    setIsAllTab(false);
+    setIsCompletedTab(false)
+    setIsActiveTab(true);
     setTodos(todoSelector.todoList.filter((el: todoType) => el.isCompleted === false));
   };
   const clearCompleted = () => {
-    const newTodos = todoSelector.todoList.filter((el: todoType) => (el.isCompleted === false || el.isCompleted === true) && el.isChecked === false)
+    const newTodos = todoSelector.todoList.filter((el: todoType) => (el.isCompleted === false || el.isCompleted === true) && el.isChecked === false);
     dispatch(addToTodoList(newTodos));
   };
-
-
   const removeTodo = (index: number) => {
     const newTodos = [...todos];
     newTodos.splice(index, 1);

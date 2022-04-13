@@ -5,15 +5,8 @@ import Todo from "./todo.component";
 
 describe('todo component', () => {
   let component: ShallowWrapper | ReactWrapper;
-  const useStateSpy: any = jest.spyOn(React, 'useState');
   const completeTodo = jest.fn();
   const removeTodo = jest.fn();
-  const setIsChecked = jest.fn();
-
-  useStateSpy.mockImplementation((isChecked: boolean) => [
-    false,
-    setIsChecked
-  ]);
   beforeEach(() => {
     component = mount(
       <Todo todo={{

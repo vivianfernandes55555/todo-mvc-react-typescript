@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import "./../../../app.css";
 
 export type todoType = {
@@ -14,20 +14,15 @@ export interface todoProps {
 }
 
 const Todo: FC<todoProps> = (todoProps: todoProps) => {
-  const [isChecked, setIsChecked] = useState(false);
   const handleOnChange = () => {
-    setIsChecked(!isChecked);
-    todoProps.completeTodo(todoProps.index, isChecked);
-
+    todoProps.completeTodo(todoProps.index, todoProps.todo.isChecked);
   };
   const handleRemove = () => {
-    setIsChecked(!isChecked);
     todoProps.removeTodo(todoProps.index);
-  };
+  };  
   return (
     <div
       className="todo"
-      style={{ textDecoration: todoProps.todo.isCompleted ? "line-through" : "" }}
     >
       <input type="checkbox"
         id={todoProps.todo.text}
@@ -36,7 +31,7 @@ const Todo: FC<todoProps> = (todoProps: todoProps) => {
         checked={todoProps.todo.isChecked}
         onChange={handleOnChange}
       />
-      {todoProps.todo.text}
+      <div style={{ textDecoration: todoProps.todo.isCompleted ? "line-through" : "" }}> {todoProps.todo.text} </div>
       <button className="button" onClick={() => handleRemove()}>x</button>
     </div>
   );
