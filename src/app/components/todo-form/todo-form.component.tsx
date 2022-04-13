@@ -20,7 +20,8 @@ const TodoForm: FC<todoFormProps> = (props: todoFormProps) => {
   }
 
   // Handle 'Enter' in todo input
-  const handleInputEnter = (event: React.KeyboardEvent) => {
+  const handleInputEnter = (event: any) => {
+    if(!event.target.value) return;
     // Check for 'Enter' key
     if (event.key === 'Enter') {
       // Prepare new todo object

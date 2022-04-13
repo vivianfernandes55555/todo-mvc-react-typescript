@@ -32,6 +32,7 @@ const TodoContainer: FC = () => {
   }, [todoSelector.todoList]);
 
   const addTodo = (todo: todoType) => {
+    setCompleteAll(false);
     const newTodos: todoType[] = [...todoSelector.todoList];
     newTodos.push(todo);
     dispatch(addToTodoList(newTodos));
@@ -39,6 +40,7 @@ const TodoContainer: FC = () => {
 
   // Check existing todo item as completed
   const completeTodo = (id: string, index: number, isChecked: boolean) => {
+    setCompleteAll(false);
     const newTodos = [...todoSelector.todoList];
     if (isActiveTab) {
       const activeTodoList = todoSelector.todoList.filter((el: todoType) => el.isCompleted === false);
@@ -83,6 +85,7 @@ const TodoContainer: FC = () => {
     dispatch(addToTodoList(newTodos));
   };
   const removeTodo = (id: string) => {
+    setCompleteAll(false);
     // Prepare new todos state
     const newTodosState: todoType[] = todos.filter((todo: todoType) => todo.id !== id);
     dispatch(addToTodoList(newTodosState));

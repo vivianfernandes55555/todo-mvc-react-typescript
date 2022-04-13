@@ -41,15 +41,23 @@ describe('todo form component', () => {
       it('should handle onKeyPress function when input ref is not true', () => {
         const handleInputEnter = jest.fn();
         const onKeyPress = component.find('input');
-        onKeyPress.simulate('keypress', {key: 'Enter'})
+        onKeyPress.simulate('keypress', {key: 'Enter', target: { value: 'hello todo'}})
         handleInputEnter();
         expect(handleInputEnter).toBeCalled();
       });
 
-      it('should handle onKeyPress function when is not enter', () => {
+      it('should handle onKeyPress function when current target is blank', () => {
         const handleInputEnter = jest.fn();
         const onKeyPress = component.find('input');
-        onKeyPress.simulate('keypress', {key: 'Esc'})
+        onKeyPress.simulate('keypress', {key: 'Enter', target: { value: ''}})
+        handleInputEnter();
+        expect(handleInputEnter).toBeCalled();
+      });
+
+      it('should handle onKeyPress function when key is not enter', () => {
+        const handleInputEnter = jest.fn();
+        const onKeyPress = component.find('input');
+        onKeyPress.simulate('keypress', {key: 'Esc', target: { value: 'hello todo'}})
         handleInputEnter();
         expect(handleInputEnter).toBeCalled();
       });
