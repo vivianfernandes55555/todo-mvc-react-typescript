@@ -1,12 +1,12 @@
 import React, { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FaChevronDown } from "react-icons/fa";
 import TodoForm from "../../components/todo-form/todo-form.component";
-import TodoItem from "../../components/todo-item/todo-item.component";
 import { addToTodoList } from "../../store/actions/todo/todo.action";
 import { todoStoreSelector } from "../../store/selectors/todo/todo.selector";
 import { todoType } from "../../types/todo.type";
 import "./../../../app.css";
+import TodoList from "../../components/todo-list/todo-list.component";
+import TodoFooter from "../../components/todo-footer/todo-footer.component";
 
 const TodoContainer: FC = () => {
   const [todos, setTodos] = useState<todoType[]>([]);
@@ -123,35 +123,26 @@ const TodoContainer: FC = () => {
 
   return (
     <div className="app">
-      <div className="todo-list">
-        <button
-          onClick={() => completeAllTodos()}
-          disabled={todos.length === 0}>
-          <FaChevronDown />
-        </button>
+      <div className="todo-list-app">
         <TodoForm
+          todos={todos}
           addTodo={addTodo}
+          completeAllTodos={completeAllTodos}
         />
-        {todos.length > 0 && todos.map((todo: todoType, index: number) => (
-          <li key={todo.id}>
-            <TodoItem
-              key={todo.id}
-              index={index}
-              todo={todo}
-              updateTodo={updateTodo}
-              completeTodo={completeTodo}
-              removeTodo={removeTodo}
-            />
-          </li>
-        ))}
-        <div >
-          {`Items Left:  ${todoSelector.todoList.filter((el: todoType) => el.isChecked === false).length} `}
-          <button className="button" onClick={() => getAllToDoList()}>All</button>
-          <button className="button" onClick={() => getActiveToDoList()}>Active</button>
-          <button className="button" onClick={() => getCompletedToDoList()}>Completed</button>
-          {todoSelector.todoList.filter((el: todoType) => el.isChecked === true).length > 0 && <button className="button" onClick={() => clearCompleted()}>Clear Completed</button>}
-        </div>
-
+        <TodoList
+          todos={todos}
+          updateTodo={updateTodo}
+          completeTodo={completeTodo}
+          removeTodo={removeTodo}
+        />
+        {`Items Left:  ${todoSelector.todoList.filter((el: todoType) => el.isChecked === false).length} `}
+        <TodoFooter 
+          todos={todos}
+          getAllToDoList={getAllToDoList}
+          getActiveToDoList={getActiveToDoList}
+          getCompletedToDoList={getCompletedToDoList}
+          clearCompleted={clearCompleted}
+        />
       </div>
     </div>
   );

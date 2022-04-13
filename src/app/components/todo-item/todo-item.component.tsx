@@ -1,16 +1,8 @@
-import React, { ChangeEvent, FC } from "react";
-import { todoType } from "../../types/todo.type";
+import React, { FC } from "react";
+import { todoItemProps } from "../../interfaces/todo-interfaces";
 import "./../../../app.css";
 
-export interface todoProps {
-  todo: todoType,
-  index: number,
-  completeTodo: (id: string, index: number, isChecked: boolean) => void,
-  removeTodo: (id: string) => void,
-  updateTodo: (event: React.ChangeEvent<HTMLInputElement>, id: string) => void;
-}
-
-const TodoItem: FC<todoProps> = (props: todoProps) => {
+const TodoItem: FC<todoItemProps> = (props: todoItemProps) => {
   return (
     <div className='todo-item'>
       <div onClick={() => props.completeTodo(props.todo.id, props.index, props.todo.isCompleted)}>

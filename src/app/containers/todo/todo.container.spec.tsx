@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import TodoForm from '../../components/todo-form/todo-form.component';
 import TodoItem from '../../components/todo-item/todo-item.component';
+import { todos } from '../../mocks/todo.mock';
 import TodoContainer from './todo.container';
 
 describe('To Do Container', () => {
@@ -54,31 +55,7 @@ describe('To Do Container', () => {
   ]);
   const props = {
     todoStore: {
-      todoList: [{
-        id: "1",
-        text: "need to go for lunch",
-        isCompleted: false,
-        isChecked: false,
-      },
-      {
-        id: "2",
-        text: "need to call Susan",
-        isCompleted: false,
-        isChecked: false,
-      },
-      {
-        id: "3",
-        text: "keep the books in the cupboard",
-        isCompleted: false,
-        isChecked: false,
-      },
-      {
-        id: "4",
-        text: "call Larry after lunch",
-        isCompleted: true,
-        isChecked: true,
-      }
-      ]
+      todoList: todos
     },
     isActiveTab:true,
     isCompletedTab:false,

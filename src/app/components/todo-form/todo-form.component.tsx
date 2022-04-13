@@ -2,9 +2,8 @@ import React, { FC, useRef, useState } from "react";
 import shortid from 'shortid';
 import { todoType } from "../../types/todo.type";
 import "./../../../app.css";
-export interface todoFormProps {
-  addTodo: (todo: todoType) => void
-}
+import { FaChevronDown } from "react-icons/fa";
+import { todoFormProps } from "../../interfaces/todo-interfaces";
 
 const TodoForm: FC<todoFormProps> = (props: todoFormProps) => {
   // Create ref for form input
@@ -20,6 +19,7 @@ const TodoForm: FC<todoFormProps> = (props: todoFormProps) => {
   }
 
   // Handle 'Enter' in todo input
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleInputEnter = (event: any) => {
     if(!event.target.value) return;
     // Check for 'Enter' key
@@ -44,6 +44,11 @@ const TodoForm: FC<todoFormProps> = (props: todoFormProps) => {
 
   return (
     <div className="todo-form">
+      <button
+          onClick={() => props.completeAllTodos()}
+          disabled={props.todos.length === 0}>
+          <FaChevronDown />
+        </button>
       <input
         ref={inputRef}
         type="text"
