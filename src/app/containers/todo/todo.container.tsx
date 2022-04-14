@@ -58,6 +58,7 @@ const TodoContainer: FC = () => {
 
   //Get All Todos List
   const getAllToDoList = () => {
+    dispatch(setAllTodoCompleted(false));
     dispatch(setActiveTab(tabTypes.ALL_TAB));
     setTodos(todoSelector.todoList);
   };
@@ -76,7 +77,6 @@ const TodoContainer: FC = () => {
 
   //Clear Selected Todos List
   const clearCompleted = () => {
-    dispatch(setAllTodoCompleted(false));
     dispatch(setActiveTab(tabTypes.CLEAR_COMPLETED_TAB));
     const newTodos = todoSelector.todoList.filter((el: todoType) => (el.isCompleted === false || el.isCompleted === true) && el.isChecked === false);
     dispatch(addToTodoList(newTodos));
@@ -95,23 +95,25 @@ const TodoContainer: FC = () => {
     let newTodosState: todoType[] = [];
     // Prepare new todos state
     if (!todoSelector.allTodosCompleted) {
-      todoSelector.todoList.forEach((el: todoType) => {
+      newTodosState = todoSelector.todoList.map((el: todoType) => {
         el.isCompleted = true;
         el.isChecked = true;
-      })
+        return el;
+      });
     } else {
-      todoSelector.todoList.forEach((el: todoType) => {
+      newTodosState = todoSelector.todoList.map((el: todoType) => {
         el.isCompleted = false;
         el.isChecked = false;
+        return el;
       })
     }
-    newTodosState = todoSelector.todoList;
     dispatch(addToTodoList(newTodosState));
     dispatch(setAllTodoCompleted(!todoSelector.allTodosCompleted));
   };
 
   // Update existing todo item
   const updateTodo = (event: React.ChangeEvent<HTMLInputElement>, id: string) => {
+    dispatch(setAllTodoCompleted(false));
     // Prepare new todos state
     const newTodos: todoType[] = [...todos]
 
