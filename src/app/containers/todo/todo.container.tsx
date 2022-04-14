@@ -4,7 +4,7 @@ import TodoForm from "../../components/todo-form/todo-form.component";
 import { addToTodoList, setActiveTab, setAllTodoCompleted, tabTypes } from "../../store/actions/todo/todo.action";
 import { todoStoreSelector } from "../../store/selectors/todo/todo.selector";
 import { todoType } from "../../types/todo.type";
-import "./../../../app.css";
+import "./../../../app/styles/styles.css";
 import TodoList from "../../components/todo-list/todo-list.component";
 import TodoFooter from "../../components/todo-footer/todo-footer.component";
 
@@ -126,7 +126,7 @@ const TodoContainer: FC = () => {
     <div className="app">
       <div className="todo-list-app">
         <TodoForm
-          todos={todos}
+          todos={todoSelector.todoList}
           addTodo={addTodo}
           completeAllTodos={completeAllTodos}
         />
@@ -136,7 +136,7 @@ const TodoContainer: FC = () => {
           completeTodo={completeTodo}
           removeTodo={removeTodo}
         />
-        {`Items Left:  ${todos.filter((el: todoType) => el.isChecked === false).length} `}
+        {`Items Left:  ${todoSelector.todoList.filter((el: todoType) => el.isChecked === false).length} `}
         <TodoFooter 
           todos={todos}
           getAllToDoList={getAllToDoList}

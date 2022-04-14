@@ -77,7 +77,7 @@
     "node-modules",
     ".github",
     "src/index.css",
-    "src/app.css",
+    "src/styles/styles.css",
     "src/reportWebVitals.ts"
   ],
   "browserslist": {

@@ -40,7 +40,7 @@ describe('To Do Container', () => {
     );
   })
 
-  it('should render App.tsx', () => {
+  it('should render todo container', () => {
     expect(component).toBeDefined();
   });
 

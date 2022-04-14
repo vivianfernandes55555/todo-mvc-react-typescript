@@ -18,7 +18,7 @@ describe('todo footer component', () => {
                 getCompletedToDoList={getCompletedToDoList}
                 clearCompleted={clearCompleted} />);
     })
-    it('should render to do component', () => {
+    it('should render to do footer component', () => {
         expect(component).toBeDefined();
     });
 })

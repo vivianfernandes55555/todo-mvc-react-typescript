@@ -2,7 +2,7 @@ import { mount, ReactWrapper, ShallowWrapper } from "enzyme";
 import React from "react";
 import TodoItem from "./todo-item.component";
 
-describe('todo component', () => {
+describe('todo item component', () => {
   let component: ShallowWrapper | ReactWrapper;
   const completeTodo = jest.fn();
   const removeTodo = jest.fn();
@@ -22,7 +22,7 @@ describe('todo component', () => {
       />);
   })
 
-  it('should render to do component', () => {
+  it('should render to do item component', () => {
     expect(component).toBeDefined();
   });
 

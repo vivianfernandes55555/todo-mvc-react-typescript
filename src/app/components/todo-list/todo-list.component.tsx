@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { todoListProps } from "../../interfaces/todo-interfaces";
 import { todoType } from "../../types/todo.type";
 import TodoItem from "../todo-item/todo-item.component";
-import "./../../../app.css";
+import "./../../../app/styles/styles.css";
 
 const TodoList: FC<todoListProps> = (props: todoListProps) => {
   const { todos } = props;

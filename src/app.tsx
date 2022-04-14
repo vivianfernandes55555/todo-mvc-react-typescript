@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import "./app.css";
+import "./app/styles/styles.css";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import TodoContainer from "./app/containers/todo/todo.container";
 

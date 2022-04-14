@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { todoFooterProps } from "../../interfaces/todo-interfaces";
 import { todoType } from "../../types/todo.type";
-import "./../../../app.css";
+import "./../../../app/styles/styles.css";
 
 const TodoFooter: FC<todoFooterProps> = (props: todoFooterProps) => {
   const { todos } = props;

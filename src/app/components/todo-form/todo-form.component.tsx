@@ -1,7 +1,7 @@
 import React, { FC, useRef, useState } from "react";
 import shortid from 'shortid';
 import { todoType } from "../../types/todo.type";
-import "./../../../app.css";
+import "./../../../app/styles/styles.css";
 import { FaChevronDown } from "react-icons/fa";
 import { todoFormProps } from "../../interfaces/todo-interfaces";
 
@@ -47,7 +47,7 @@ const TodoForm: FC<todoFormProps> = (props: todoFormProps) => {
       <button
           onClick={() => props.completeAllTodos()}
           disabled={props.todos.length === 0}>
-          <FaChevronDown />
+          <FaChevronDown/>
         </button>
       <input
         ref={inputRef}
@@ -55,7 +55,8 @@ const TodoForm: FC<todoFormProps> = (props: todoFormProps) => {
         placeholder='What needs to be done?'
         onChange={event => handleInputChange(event)}
         onKeyPress={event => handleInputEnter(event)}
-      />
+      >
+      </input>
     </div>
   )
 }

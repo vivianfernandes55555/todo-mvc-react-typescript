@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { todoItemProps } from "../../interfaces/todo-interfaces";
-import "./../../../app.css";
+import "./../../../app/styles/styles.css";
 
 const TodoItem: FC<todoItemProps> = (props: todoItemProps) => {
   return (

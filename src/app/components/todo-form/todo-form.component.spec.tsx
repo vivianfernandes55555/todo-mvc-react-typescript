@@ -22,7 +22,7 @@ describe('todo form component', () => {
       />);
   })
 
-  it('should render to do component', () => {
+  it('should render to do form component', () => {
     expect(component).toBeDefined();
   });
 

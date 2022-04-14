@@ -22,7 +22,7 @@ describe('todo list component', () => {
       />);
   })
 
-  it('should render to do component', () => {
+  it('should render to do list component', () => {
     expect(component).toBeDefined();
   });
 
