@@ -17,6 +17,16 @@ export const todoReducer = (
                 ...state,
                 todoList: action.payload
             };
+        case todoAction.ADD_TO_TODO_LIST_SUCCESS:
+            return {
+                ...state,
+                todoListRestApiSuccessResp: action.payload
+            };
+        case todoAction.ADD_TO_TODO_LIST_FAILURE:
+            return {
+                ...state,
+                todoListRestApiFailureResp: action.payload
+            };
         case todoAction.SET_ACTIVE_TAB:
             return {
                 ...state,
