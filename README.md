@@ -18,7 +18,7 @@ You will also see any lint errors in the console.
 
 ### `npm run test:coverage`
 
-![image](https://user-images.githubusercontent.com/72933984/163329663-c1a36634-7fae-43e5-b455-cb28d943ef9f.png)
+![image](https://user-images.githubusercontent.com/72933984/164160697-499d3839-8a6b-49d2-a102-a78f39fb25c1.png)
 
 ### `npm run build`
 
