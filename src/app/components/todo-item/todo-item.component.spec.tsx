@@ -52,6 +52,15 @@ describe('todo item component', () => {
     expect(handleOnChange).toBeCalled();
   });
 
+  
+  it('should handle handleOnchange function if value is blank', () => {
+    const handleOnChange = jest.fn();
+    const onChangeFn = component.find('input');
+    onChangeFn.simulate('change', { target: { value: '' } })
+    handleOnChange();
+    expect(handleOnChange).toBeCalled();
+  });
+
   it('should handle completeTodo function', () => {
     const completeTodo = jest.fn();
     const button = component.find('div').at(1);

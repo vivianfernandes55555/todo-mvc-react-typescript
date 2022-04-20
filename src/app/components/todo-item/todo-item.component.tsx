@@ -17,7 +17,10 @@ const TodoItem: FC<todoItemProps> = (props: todoItemProps) => {
         <input
           style={{ textDecoration: props.todo.isCompleted ? "line-through" : "" }}
           value={props.todo.text}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => props.updateTodo(event, props.todo.id)}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            if (event.target.value)
+              props.updateTodo(event, props.todo.id)
+          }}
         />
       </div>
 
