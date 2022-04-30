@@ -115,7 +115,8 @@
       "[rootDir]/src/reportWebVitals.ts",
       "[rootDir]/src/index.tsx",
       "[rootDir]/src/app/store/index.ts",
-      "[rootDir]/src/app/store/reducers/index.ts"
+      "[rootDir]/src/app/store/reducers/index.ts",
+      "[rootDir]/src/app/config/api-config.ts"
     ]
   }
 }

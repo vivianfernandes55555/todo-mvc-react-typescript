@@ -27,6 +27,33 @@ describe('Todo Reducer', () => {
         })
     });
 
+    it('should handle ADD_TO_TODO_LIST_SUCCESS', () => {
+        const requestAction: todoStoreTypes = {
+            type: todoAction.ADD_TO_TODO_LIST_SUCCESS,
+            payload: [{
+                id:"1",
+                text: "need to go for lunch",
+                isCompleted: false,
+                isChecked: false,
+            }]
+        }
+
+        expect(todoReducer(initialState, requestAction)).toEqual({...initialState,
+            todoListRestApiSuccessResp: requestAction.payload,
+        })
+    });
+
+    it('should handle ADD_TO_TODO_LIST_FAILURE', () => {
+        const requestAction: todoStoreTypes = {
+            type: todoAction.ADD_TO_TODO_LIST_FAILURE,
+            payload: 'Error!'
+        }
+
+        expect(todoReducer(initialState, requestAction)).toEqual({...initialState,
+            todoListRestApiFailureResp: requestAction.payload,
+        })
+    });
+
     it('should handle SET_ACTIVE_TAB', () => {
         const requestAction: todoStoreTypes = {
             type: todoAction.SET_ACTIVE_TAB,

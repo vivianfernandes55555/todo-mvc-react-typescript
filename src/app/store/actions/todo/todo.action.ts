@@ -28,7 +28,7 @@ export interface addTodoListSuccessAction {
 
 export interface addTodoListFailureAction {
     type: typeof todoAction.ADD_TO_TODO_LIST_FAILURE,
-    payload: todoType[]
+    payload: string
 }
 
 
@@ -54,7 +54,7 @@ export const addToTodoListSuccess = (payload: todoType[]): todoStoreTypes => ({
     payload
 });
 
-export const addToTodoListFailure = (payload: todoType[]): todoStoreTypes => ({
+export const addToTodoListFailure = (payload: string): todoStoreTypes => ({
     type: todoAction.ADD_TO_TODO_LIST_FAILURE,
     payload
 });

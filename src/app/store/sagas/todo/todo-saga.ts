@@ -5,8 +5,7 @@ import { API } from '../../services/api.service'
 const apiServices = API();
 
 export function* requestTodosSaga(action: any) {
-    const { response, error } = yield apiServices.post('http://google.com', JSON.stringify(action.payload));
-
+    const { response, error } = yield apiServices.post('http://localhost:8000/postTodoList', JSON.stringify(action.payload));
     if (response) {
         yield put(addToTodoListSuccess(response));
     } else {
